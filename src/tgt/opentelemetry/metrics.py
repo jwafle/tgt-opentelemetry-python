@@ -4,9 +4,6 @@ from opentelemetry.sdk.metrics.export import (
     PeriodicExportingMetricReader,
     ConsoleMetricExporter
 )
-from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import (
-    OTLPMetricExporter as GRPCMetricExporter
-)
 from opentelemetry.exporter.otlp.proto.http.metric_exporter import (
     OTLPMetricExporter as HTTPMetricExporter
 )
@@ -24,17 +21,10 @@ def create_meter_provider(options: TgtOptions, resource: Resource):
     Returns:
         MeterProvider: the new meter provider
     """
-    if options.metrics_exporter_protocol == "grpc":
-        exporter = GRPCMetricExporter(
-            endpoint=options.get_metrics_endpoint(),
-            credentials=options.get_metrics_endpoint_credentials(),
-            headers=options.get_metrics_headers()
-        )
-    else:
-        exporter = HTTPMetricExporter(
-            endpoint=options.get_metrics_endpoint(),
-            headers=options.get_metrics_headers()
-        )
+    exporter = HTTPMetricExporter(
+        endpoint=options.get_metrics_endpoint(),
+        headers=options.get_metrics_headers()
+    )
     readers = [
         PeriodicExportingMetricReader(
             exporter

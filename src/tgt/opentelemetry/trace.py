@@ -34,8 +34,6 @@ def create_tracer_provider(
         resource=resource,
         sampler=configure_sampler(options)
     )
-    trace_provider.add_span_processor()
-
     trace_provider.add_span_processor(
         BatchSpanProcessor(
             exporter

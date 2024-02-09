@@ -12,7 +12,6 @@ from opentelemetry.sdk.environment_variables import (
 )
 
 # Default values
-DEFAULT_API_ENDPOINT = "https://api.tgt.io:443"
 DEFAULT_EXPORTER_PROTOCOL = "http/protobuf"
 DEFAULT_SERVICE_NAME = "unknown_service:python"
 
@@ -26,7 +25,6 @@ MISSING_SERVICE_NAME_ERROR = "Missing service name. Specify either " + \
 # not currently supported in OTel SDK, open PR:
 # https://github.com/open-telemetry/opentelemetry-specification/issues/1901
 
-EXPORTER_PROTOCOL_GRPC = "grpc"
 EXPORTER_PROTOCOL_HTTP_PROTO = "http/protobuf"
 
 TRACES_HTTP_PATH = "v1/traces"
@@ -136,16 +134,13 @@ class TgtOptions:
     """
     service_name = DEFAULT_SERVICE_NAME
     service_version = None
-    endpoint = DEFAULT_API_ENDPOINT
     traces_endpoint = None
     metrics_endpoint = None
     traces_endpoint_insecure = False
     metrics_endpoint_insecure = False
     traces_exporter_protocol = DEFAULT_EXPORTER_PROTOCOL
     metrics_exporter_protocol = DEFAULT_EXPORTER_PROTOCOL
-    sample_rate = DEFAULT_SAMPLE_RATE
     debug = False
-    log_level = DEFAULT_LOG_LEVEL
     dataset = None
     metrics_dataset = None
 
@@ -162,16 +157,8 @@ class TgtOptions:
         traces_exporter_protocol: str = None,
         metrics_exporter_protocol: str = None
     ):
-        self.debug = parse_bool(
-            DEBUG,
-            (debug or False),
-            INVALID_DEBUG_ERROR
-        )
-        if self.debug:
-            self.log_level = "DEBUG"
-        else:
-            log_level = os.environ.get(OTEL_LOG_LEVEL, log_level)
-            if log_level and log_level.upper() in log_levels:
+        log_level = os.environ.get(OTEL_LOG_LEVEL, log_level)
+        if log_level and log_level.upper() in log_levels:
                 self.log_level = log_level.upper()
         logging.basicConfig(level=log_levels[self.log_level])
 
