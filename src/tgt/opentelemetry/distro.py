@@ -21,16 +21,16 @@ from typing import Optional
 from opentelemetry.instrumentation.distro import BaseDistro
 from opentelemetry.metrics import set_meter_provider
 from opentelemetry.trace import set_tracer_provider
-from honeycomb.opentelemetry.metrics import create_meter_provider
-from honeycomb.opentelemetry.options import HoneycombOptions
-from honeycomb.opentelemetry.resource import create_resource
-from honeycomb.opentelemetry.trace import create_tracer_provider
+from tgt.opentelemetry.metrics import create_meter_provider
+from tgt.opentelemetry.options import TgtOptions
+from tgt.opentelemetry.resource import create_resource
+from tgt.opentelemetry.trace import create_tracer_provider
 
 _logger = getLogger(__name__)
 
 
 def configure_opentelemetry(
-    options: Optional[HoneycombOptions] = None,
+    options: Optional[TgtOptions] = None,
 ):
     """
     Configures the OpenTelemetry SDK to send telemetry to Honeycomb.
@@ -43,8 +43,8 @@ def configure_opentelemetry(
         Note: API key is a required option.
     """
     if options is None:
-        options = HoneycombOptions()
-    _logger.info("🐝 Configuring OpenTelemetry using Honeycomb distro 🐝")
+        options = TgtOptions()
+    _logger.info("🎯 Configuring OpenTelemetry using Target distro 🎯")
     _logger.debug(vars(options))
     resource = create_resource(options)
     set_tracer_provider(
@@ -57,7 +57,7 @@ def configure_opentelemetry(
 
 
 # pylint: disable=too-few-public-methods
-class HoneycombDistro(BaseDistro):
+class TargetDistro(BaseDistro):
     """
     An extension of the base python OpenTelemetry distro, which provides
     a mechanism to automatically configure some of the more common options
@@ -73,7 +73,7 @@ class HoneycombDistro(BaseDistro):
     declaration to package metadata in our pyproject.toml, like so:
 
     [tool.poetry.plugins."opentelemetry_distro"]
-    distro = "honeycomb.opentelemetry.distro:HoneycombDistro"
+    distro = "tgt.opentelemetry.distro:TargetDistro"
     """
 
     def _configure(self, **kwargs):

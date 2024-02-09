@@ -10,11 +10,11 @@ from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import (
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import (
     OTLPSpanExporter as HTTPSpanExporter
 )
-from honeycomb.opentelemetry.baggage import BaggageSpanProcessor
-from honeycomb.opentelemetry.local_exporter import LocalTraceLinkSpanExporter
-from honeycomb.opentelemetry.options import HoneycombOptions
-from honeycomb.opentelemetry.resource import create_resource
-from honeycomb.opentelemetry.trace import create_tracer_provider
+from tgt.opentelemetry.baggage import BaggageSpanProcessor
+from tgt.opentelemetry.local_exporter import LocalTraceLinkSpanExporter
+from tgt.opentelemetry.options import TgtOptions
+from tgt.opentelemetry.resource import create_resource
+from tgt.opentelemetry.trace import create_tracer_provider
 
 """
 Our Tracer Provider expects a series of span processors.
@@ -28,7 +28,7 @@ SimpleSpanProcessor (Local Vis Exporter)
 
 
 def test_returns_tracer_provider_with_batch_and_baggage_span_processors():
-    options = HoneycombOptions()
+    options = TgtOptions()
     resource = create_resource(options)
     tracer_provider = create_tracer_provider(options, resource)
 
@@ -45,7 +45,7 @@ def test_returns_tracer_provider_with_batch_and_baggage_span_processors():
 
 
 def test_grpc_protocol_configures_grpc_span_exporter_on_batch_span_processor():
-    options = HoneycombOptions(traces_exporter_protocol="grpc")
+    options = TgtOptions(traces_exporter_protocol="grpc")
     resource = create_resource(options)
     tracer_provider = create_tracer_provider(options, resource)
 
@@ -57,7 +57,7 @@ def test_grpc_protocol_configures_grpc_span_exporter_on_batch_span_processor():
 
 
 def test_http_protocol_configures_http_span_exporter_on_batch_span_processor():
-    options = HoneycombOptions(traces_exporter_protocol="http/protobuf")
+    options = TgtOptions(traces_exporter_protocol="http/protobuf")
     resource = create_resource(options)
     tracer_provider = create_tracer_provider(options, resource)
 
@@ -69,7 +69,7 @@ def test_http_protocol_configures_http_span_exporter_on_batch_span_processor():
 
 
 def test_setting_debug_adds_console_exporter_on_simple_span_processor():
-    options = HoneycombOptions(debug=True)
+    options = TgtOptions(debug=True)
     resource = create_resource(options)
     tracer_provider = create_tracer_provider(options, resource)
 
@@ -82,7 +82,7 @@ def test_setting_debug_adds_console_exporter_on_simple_span_processor():
 
 
 def test_setting_enable_local_visualizations_adds_local_trace_exporter_on_simple():
-    options = HoneycombOptions(enable_local_visualizations=True)
+    options = TgtOptions(enable_local_visualizations=True)
     resource = create_resource(options)
     tracer_provider = create_tracer_provider(options, resource)
 
@@ -95,7 +95,7 @@ def test_setting_enable_local_visualizations_adds_local_trace_exporter_on_simple
 
 
 def test_setting_both_flags_enables_all_available_span_processors():
-    options = HoneycombOptions(enable_local_visualizations=True, debug=True)
+    options = TgtOptions(enable_local_visualizations=True, debug=True)
     resource = create_resource(options)
     tracer_provider = create_tracer_provider(options, resource)
 

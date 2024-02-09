@@ -8,10 +8,10 @@ from opentelemetry.baggage import (
     set_baggage
 )
 from opentelemetry.context import attach, detach
-from honeycomb.opentelemetry.baggage import BaggageSpanProcessor
-from honeycomb.opentelemetry.options import HoneycombOptions
-from honeycomb.opentelemetry.resource import create_resource
-from honeycomb.opentelemetry.trace import create_tracer_provider
+from tgt.opentelemetry.baggage import BaggageSpanProcessor
+from tgt.opentelemetry.options import TgtOptions
+from tgt.opentelemetry.resource import create_resource
+from tgt.opentelemetry.trace import create_tracer_provider
 
 
 def test_check_the_baggage():
@@ -20,7 +20,7 @@ def test_check_the_baggage():
 
 
 def test_set_baggage_attaches_to_child_spans_and_detaches_properly_with_context():
-    options = HoneycombOptions()
+    options = TgtOptions()
     resource = create_resource(options)
     tracer_provider = create_tracer_provider(options, resource)
 
@@ -44,7 +44,7 @@ def test_set_baggage_attaches_to_child_spans_and_detaches_properly_with_context(
 
 
 def test_set_baggage_attaches_to_child_spans_and_detaches_properly_with_token():
-    options = HoneycombOptions()
+    options = TgtOptions()
     resource = create_resource(options)
     tracer_provider = create_tracer_provider(options, resource)
 

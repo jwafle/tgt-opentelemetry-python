@@ -1,10 +1,10 @@
 import os
 from opentelemetry import trace, baggage, metrics
 from opentelemetry.context import attach, detach
-from honeycomb.opentelemetry import configure_opentelemetry, HoneycombOptions
+from tgt.opentelemetry import configure_opentelemetry, TgtOptions
 
 configure_opentelemetry(
-    HoneycombOptions(
+    TgtOptions(
         debug=True,  # prints exported traces & metrics to the console, useful for debugging and setting up
         # Honeycomb API Key, required to send data to Honeycomb
         apikey=os.getenv("HONEYCOMB_API_KEY"),

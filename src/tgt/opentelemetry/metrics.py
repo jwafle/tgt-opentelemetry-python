@@ -10,10 +10,10 @@ from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import (
 from opentelemetry.exporter.otlp.proto.http.metric_exporter import (
     OTLPMetricExporter as HTTPMetricExporter
 )
-from honeycomb.opentelemetry.options import HoneycombOptions
+from tgt.opentelemetry.options import TgtOptions
 
 
-def create_meter_provider(options: HoneycombOptions, resource: Resource):
+def create_meter_provider(options: TgtOptions, resource: Resource):
     """
     Configures and returns a new MeterProvider to send metrics telemetry.
 

@@ -1,12 +1,12 @@
 from opentelemetry.sdk.metrics import MeterProvider
 
-from honeycomb.opentelemetry.options import HoneycombOptions
-from honeycomb.opentelemetry.resource import create_resource
-from honeycomb.opentelemetry.metrics import create_meter_provider
+from tgt.opentelemetry.options import TgtOptions
+from tgt.opentelemetry.resource import create_resource
+from tgt.opentelemetry.metrics import create_meter_provider
 
 
 def test_returns_meter_provider():
-    options = HoneycombOptions()
+    options = TgtOptions()
     resource = create_resource(options)
     meter_provider = create_meter_provider(options, resource)
     assert isinstance(meter_provider, MeterProvider)
@@ -14,7 +14,7 @@ def test_returns_meter_provider():
 
 
 def test_setting_debug_adds_console_exporter():
-    options = HoneycombOptions(debug=True)
+    options = TgtOptions(debug=True)
     resource = create_resource(options)
     meter_provider = create_meter_provider(options, resource)
     assert isinstance(meter_provider, MeterProvider)

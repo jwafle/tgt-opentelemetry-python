@@ -16,7 +16,7 @@ x-app-base:
   build:
     context: ../
     dockerfile: ./examples/hello-world/Dockerfile
-  image: honeycomb/hello-world
+  image: tgt/hello-world
   depends_on:
     - collector
 
@@ -25,7 +25,7 @@ x-flask-app-base:
   build:
     context: ../
     dockerfile: ./examples/hello-world-flask/Dockerfile
-  image: honeycomb/hello-world-flask
+  image: tgt/hello-world-flask
   depends_on:
     - collector
 

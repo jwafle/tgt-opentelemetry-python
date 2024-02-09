@@ -2,12 +2,12 @@
 name = "hello-world"
 version = "0.1.0"
 description = ""
-authors = ["Honeycomb <support@honeycomb.io>"]
+authors = ["Honeycomb <support@tgt.io>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-honeycomb-opentelemetry = {path = "../../", develop = true}
+tgt-opentelemetry = {path = "../../", develop = true}
 opentelemetry-api = "1.22.0"
 
 [build-system]

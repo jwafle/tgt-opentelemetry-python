@@ -14,16 +14,16 @@ from opentelemetry.trace.span import TraceState
 from opentelemetry.util.types import Attributes
 from opentelemetry.context import Context
 
-from honeycomb.opentelemetry.options import (
+from tgt.opentelemetry.options import (
     DEFAULT_SAMPLE_RATE,
-    HoneycombOptions
+    TgtOptions
 )
 
 _logger = getLogger(__name__)
 
 
 def configure_sampler(
-    options: Optional[HoneycombOptions] = None,
+    options: Optional[TgtOptions] = None,
 ):
     """Configures and returns an OpenTelemetry Sampler that is
     configured based on the sample_rate determined in HoneycombOptions.

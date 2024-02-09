@@ -1,8 +1,8 @@
 # Honeycomb OpenTelemetry Distro for Python
 
-[![OSS Lifecycle](https://img.shields.io/osslifecycle/honeycombio/honeycomb-opentelemetry-python)](https://github.com/honeycombio/home/blob/main/honeycomb-oss-lifecycle-and-practices.md)
-[![CircleCI](https://circleci.com/gh/honeycombio/honeycomb-opentelemetry-python.svg?style=shield)](https://circleci.com/gh/honeycombio/honeycomb-opentelemetry-python)
-[![PyPi](https://img.shields.io/pypi/v/honeycomb-opentelemetry)](https://pypi.org/project/honeycomb-opentelemetry/)
+[![OSS Lifecycle](https://img.shields.io/osslifecycle/honeycombio/tgt-opentelemetry-python)](https://github.com/honeycombio/home/blob/main/tgt-oss-lifecycle-and-practices.md)
+[![CircleCI](https://circleci.com/gh/honeycombio/tgt-opentelemetry-python.svg?style=shield)](https://circleci.com/gh/honeycombio/tgt-opentelemetry-python)
+[![PyPi](https://img.shields.io/pypi/v/tgt-opentelemetry)](https://pypi.org/project/tgt-opentelemetry/)
 
 **STATUS: this library is BETA.**
 You're welcome to try it, and let us know your feedback in the issues!
@@ -22,7 +22,7 @@ Latest release built with:
 
 Honeycomb's Distribution of OpenTelemetry for Python allows you to streamline configuration and to instrument as quickly and easily as possible.
 
-- [Documentation](https://docs.honeycomb.io/getting-data-in/opentelemetry/python/)
+- [Documentation](https://docs.tgt.io/getting-data-in/opentelemetry/python/)
 - [Examples](/examples/)
 - See [DEVELOPING.md](/DEVELOPING.md) for additional instructions for building and testing this project in development.
 

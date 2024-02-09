@@ -30,8 +30,8 @@ clean-smoke-tests:
 #: clean all the caches and any dist
 clean-cache:
 	rm -rf dist/*
-	rm -rf honeycomb/opentelemetry/__pycache__/
-	rm -rf src/honeycomb/opentelemetry/__pycache__/
+	rm -rf tgt/opentelemetry/__pycache__/
+	rm -rf src/tgt/opentelemetry/__pycache__/
 	rm -rf examples/hello-world-flask/__pycache__
 	rm -rf examples/hello-world-flask/dist/*
 	rm -rf examples/hello-world/__pycache__

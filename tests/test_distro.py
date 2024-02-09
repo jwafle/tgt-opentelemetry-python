@@ -8,17 +8,17 @@ from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import (
     OTLPSpanExporter as GRPCSpanExporter
 )
 
-from honeycomb.opentelemetry.distro import configure_opentelemetry
-from honeycomb.opentelemetry.options import HoneycombOptions
-from honeycomb.opentelemetry.version import __version__
+from tgt.opentelemetry.distro import configure_opentelemetry
+from tgt.opentelemetry.options import TgtOptions
+from tgt.opentelemetry.version import __version__
 
 
 def test_distro_configure_defaults():
     configure_opentelemetry()
     tracer_provider = get_tracer_provider()
     assert tracer_provider._resource._attributes["service.name"] == "unknown_service:python"
-    assert tracer_provider._resource._attributes["honeycomb.distro.version"] == __version__
-    assert tracer_provider._resource._attributes["honeycomb.distro.runtime_version"] == platform.python_version(
+    assert tracer_provider._resource._attributes["tgt.distro.version"] == __version__
+    assert tracer_provider._resource._attributes["tgt.distro.runtime_version"] == platform.python_version(
     )
 
     active_span_processors = tracer_provider._active_span_processor._span_processors
@@ -34,7 +34,7 @@ def test_distro_configure_defaults():
 
 def test_can_enable_metrics():
     # metrics is enabled by providing a metrics dataset
-    options = HoneycombOptions(metrics_dataset="my-app-metrics")
+    options = TgtOptions(metrics_dataset="my-app-metrics")
     configure_opentelemetry(options)
 
     meter_provider = get_meter_provider()

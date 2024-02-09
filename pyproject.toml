@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "honeycomb-opentelemetry"
+name = "tgt-opentelemetry"
 version = "0.2.4b0"
-description = "Honeycomb OpenTelemetry Distro for Python"
-authors = ["Honeycomb <support@honeycomb.io>"]
+description = "Target OpenTelemetry Distro for Python"
+authors = ["Jared Woelfel <jared.woelfel@target.com>"]
 readme = "README.md"
-packages = [{include = "honeycomb", from = "src" }]
+packages = [{include = "tgt", from = "src" }]
 license = "Apache-2.0"
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -35,7 +35,7 @@ importlib-metadata = { version = ">=0.12", python = "<3.8" }
 requests-mock = "^1.10.0"
 
 [tool.poetry.plugins."opentelemetry_distro"]
-distro = "honeycomb.opentelemetry.distro:HoneycombDistro"
+distro = "tgt.opentelemetry.distro:TargetDistro"
 
 [build-system]
 requires = ["poetry-core"]

@@ -21,7 +21,7 @@ make build
 
 Check out the [Example Application overview](/examples/).
 
-Note: Changes to python files in `src/honeycomb/opentelemetry` should propagate to the example applications upon save. Changes in the honeycomb.opentelemetry's pyproject.toml may need a `poetry build` to take effect in the example applications.
+Note: Changes to python files in `src/tgt/opentelemetry` should propagate to the example applications upon save. Changes in the tgt.opentelemetry's pyproject.toml may need a `poetry build` to take effect in the example applications.
 
 ### Running with Docker-Compose
 
@@ -83,10 +83,10 @@ For example, here's an interaction that removes a poetry virtual environment tha
 ```bash
 # list path to virtual environment
 ➜ poetry env list --full-path
-/Users/alice/Library/Caches/pypoetry/virtualenvs/honeycomb-opentelemetry-p9yAYVmc-py3.10 (Activated)
+/Users/alice/Library/Caches/pypoetry/virtualenvs/tgt-opentelemetry-p9yAYVmc-py3.10 (Activated)
 # remove virtual environment
 ➜ poetry env remove python3.10
-Deleted virtualenv: /Users/alice/Library/Caches/pypoetry/virtualenvs/honeycomb-opentelemetry-p9yAYVmc-py3.10
+Deleted virtualenv: /Users/alice/Library/Caches/pypoetry/virtualenvs/tgt-opentelemetry-p9yAYVmc-py3.10
 ```
 
 Then go through the steps again to install and build, and there will be a new virtual environment.

@@ -7,11 +7,11 @@ from opentelemetry.sdk.trace.sampling import (
     Decision
 )
 
-from honeycomb.opentelemetry.options import (
-    HoneycombOptions,
+from tgt.opentelemetry.options import (
+    TgtOptions,
     DEFAULT_SAMPLE_RATE
 )
-from honeycomb.opentelemetry.sampler import (
+from tgt.opentelemetry.sampler import (
     configure_sampler,
     DeterministicSampler
 )
@@ -47,7 +47,7 @@ def test_sample_with_undefined_rate_defaults_to_ALWAYS_ON_and_recorded():
 
 
 def test_sampler_with_rate_of_one_is_ALWAYS_ON_and_recorded():
-    sample_rate_one = HoneycombOptions(sample_rate=1)
+    sample_rate_one = TgtOptions(sample_rate=1)
     always_on_sampler = configure_sampler(sample_rate_one)
     # test the inner DeterministicSampler choice and rate
     inner_sampler = always_on_sampler._sampler
@@ -64,7 +64,7 @@ def test_sampler_with_rate_of_one_is_ALWAYS_ON_and_recorded():
 
 
 def test_sampler_with_rate_of_zero_is_ALWAYS_OFF_and_DROP():
-    sample_rate_zero = HoneycombOptions(sample_rate=0)
+    sample_rate_zero = TgtOptions(sample_rate=0)
     always_off_sampler = configure_sampler(sample_rate_zero)
     # test the inner DeterministicSampler choice and rate
     inner_sampler = always_off_sampler._sampler
@@ -79,7 +79,7 @@ def test_sampler_with_rate_of_zero_is_ALWAYS_OFF_and_DROP():
 
 
 def test_sampler_with_rate_of_ten_configures_TraceIdRatioBased():
-    sample_rate_ten = HoneycombOptions(sample_rate=10)
+    sample_rate_ten = TgtOptions(sample_rate=10)
     trace_id_ratio_sampler = configure_sampler(sample_rate_ten)
     # test the inner DeterministicSampler choice and rate
     inner_sampler = trace_id_ratio_sampler._sampler
