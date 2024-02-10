@@ -104,8 +104,7 @@ def _append_metrics_path(protocol: str, endpoint: str) -> str:
 
 def parse_bool(environment_variable: str,
                default_value: bool,
-               error_message: str,
-               deployment: str) -> bool:
+               error_message: str) -> bool:
     """
     Attempts to parse the provided environment variable into a bool. If it
     does not exist or fails parse, the default value is returned instead.
@@ -170,6 +169,7 @@ class TgtOptions:
     traces_exporter_protocol = DEFAULT_EXPORTER_PROTOCOL
     metrics_exporter_protocol = DEFAULT_EXPORTER_PROTOCOL
     debug = False
+    log_level = DEFAULT_LOG_LEVEL
     deployment = DEFAULT_DEPLOYMENT
     metrics_disabled = False
     traces_disabled = False
@@ -200,6 +200,8 @@ class TgtOptions:
             DEFAULT_EXPORTER_OTLP_ENDPOINT = "127.0.0.1:4318"
         elif self.deployment == STORES_DEPLOYMENT:
             DEFAULT_EXPORTER_OTLP_ENDPOINT = "telemetry.storeapi.target.com"
+        else:
+            DEFAULT_EXPORTER_OTLP_ENDPOINT = "telemetry.prod.target.com"
 
         self.metrics_disabled = parse_bool(
             METRICS_DISABLED,
@@ -305,8 +307,7 @@ class TgtOptions:
         endpoint_insecure = parse_bool(
             OTEL_EXPORTER_OTLP_INSECURE,
             (endpoint_insecure or get_default_insecure(deployment)),
-            INVALID_INSECURE_ERROR,
-            deployment
+            INVALID_INSECURE_ERROR
         )
         self.traces_endpoint_insecure = parse_bool(
             OTEL_EXPORTER_OTLP_TRACES_INSECURE,
