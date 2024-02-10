@@ -8,7 +8,6 @@ from opentelemetry.sdk.trace.export import (
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import (
     OTLPSpanExporter as HTTPSpanExporter
 )
-from tgt.opentelemetry.local_exporter import configure_local_exporter
 from tgt.opentelemetry.options import TgtOptions
 from tgt.opentelemetry.sampler import configure_sampler
 

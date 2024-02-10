@@ -1,15 +1,13 @@
 from opentelemetry import context
 from opentelemetry.trace import SpanKind
 from opentelemetry.sdk.trace.sampling import (
-    ALWAYS_OFF,
-    ALWAYS_ON,
-    TraceIdRatioBased,
+    ParentBased,
+    DEFAULT_OFF,
     Decision
 )
 
 from tgt.opentelemetry.options import (
     TgtOptions,
-    DEFAULT_SAMPLE_RATE
 )
 from tgt.opentelemetry.sampler import (
     configure_sampler,
@@ -30,36 +28,16 @@ def get_sampling_result(test_sampler):
 
 
 def test_sample_with_undefined_rate_defaults_to_ALWAYS_ON_and_recorded():
-    undefined_rate_sampler = configure_sampler()
-    # test the `DEFAULT_SAMPLE_RATE` is applied (i.e. 1)
-    assert undefined_rate_sampler.rate == DEFAULT_SAMPLE_RATE
-    # test the inner DeterministicSampler choice
-    inner_sampler = undefined_rate_sampler._sampler
-    assert inner_sampler == ALWAYS_ON
-    assert isinstance(undefined_rate_sampler, DeterministicSampler)
+    default_off_sampler = configure_sampler()
+    # test the inner sampler choice
+    inner_sampler = default_off_sampler._sampler
+    assert inner_sampler == DEFAULT_OFF
+    assert isinstance(default_off_sampler, ParentBased)
     # test the SamplingResult is as expected
     sampling_result = get_sampling_result(undefined_rate_sampler)
     assert sampling_result.decision.is_sampled()
     assert sampling_result.attributes == {
         'existing_attr': 'is intact',
-        'SampleRate': DEFAULT_SAMPLE_RATE
-    }
-
-
-def test_sampler_with_rate_of_one_is_ALWAYS_ON_and_recorded():
-    sample_rate_one = TgtOptions(sample_rate=1)
-    always_on_sampler = configure_sampler(sample_rate_one)
-    # test the inner DeterministicSampler choice and rate
-    inner_sampler = always_on_sampler._sampler
-    assert inner_sampler == ALWAYS_ON
-    assert isinstance(always_on_sampler, DeterministicSampler)
-    assert always_on_sampler.rate == 1
-    # test the SamplingResult is as expected
-    sampling_result = get_sampling_result(always_on_sampler)
-    assert sampling_result.decision.is_sampled()
-    assert sampling_result.attributes == {
-        'existing_attr': 'is intact',
-        'SampleRate': 1
     }
 
 
@@ -76,27 +54,3 @@ def test_sampler_with_rate_of_zero_is_ALWAYS_OFF_and_DROP():
     assert sampling_result.decision.is_sampled() is False
     assert sampling_result.decision == Decision.DROP
     assert sampling_result.attributes == {}
-
-
-def test_sampler_with_rate_of_ten_configures_TraceIdRatioBased():
-    sample_rate_ten = TgtOptions(sample_rate=10)
-    trace_id_ratio_sampler = configure_sampler(sample_rate_ten)
-    # test the inner DeterministicSampler choice and rate
-    inner_sampler = trace_id_ratio_sampler._sampler
-    assert isinstance(
-        inner_sampler,
-        TraceIdRatioBased
-    )
-    assert isinstance(
-        trace_id_ratio_sampler,
-        DeterministicSampler
-    )
-    assert trace_id_ratio_sampler.rate == 10
-    assert "{0.1}" in inner_sampler.get_description()
-    # test the SamplingResult is as expected
-    sampling_result = get_sampling_result(trace_id_ratio_sampler)
-    assert sampling_result.decision.is_sampled()
-    assert sampling_result.attributes == {
-        'existing_attr': 'is intact',
-        'SampleRate': 10
-    }
