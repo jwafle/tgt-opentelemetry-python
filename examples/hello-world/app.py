@@ -7,9 +7,6 @@ configure_opentelemetry(
     TgtOptions(
         debug=True,  # prints exported traces & metrics to the console, useful for debugging and setting up
         service_name="otel-python-example",
-        # enable_local_visualizations=True, # Will print a link to a trace produced in Honeycomb to the console, useful for debugging
-        # traces_apikey = None, Set a specific Honeycomb API key just for traces
-        # metrics_apikey = None, Set a specific Honeycomb API key just for metrics
         # service_version = None, Set a version for this service, will show up as an attribute on all spans
         exporter_protocol=os.getenv("OTEL_EXPORTER_OTLP_PROTOCOL", "http/protobuf"),
         # traces_exporter_protocol = "grpc", Set a specific exporter protocol just for traces, grpc or http/protobuf

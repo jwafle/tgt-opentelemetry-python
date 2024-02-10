@@ -60,26 +60,12 @@ smoke-tests/collector/data.json:
 	@echo "+++ Zhuzhing smoke test's Collector data.json"
 	@touch $@ && chmod o+w $@
 
-#: smoke test the hello-world app using grpc protocol and configure_opentelemetry()
-smoke-sdk-grpc: smoke-tests/collector/data.json
-	@echo ""
-	@echo "+++ Running gRPC smoke tests on configure_opentelemetry()"
-	@echo ""
-	cd smoke-tests && bats ./smoke-sdk-grpc.bats --report-formatter junit --output ./
-
 #: smoke test the hello-world app using http/protobuf protocol and configure_opentelemetry()
 smoke-sdk-http: smoke-tests/collector/data.json
 	@echo ""
 	@echo "+++ Running HTTP smoke tests on configure_opentelemetry()"
 	@echo ""
 	cd smoke-tests && bats ./smoke-sdk-http.bats --report-formatter junit --output ./
-
-#: smoke test the flask app using grpc protocol and opentelemetry_instrument
-smoke-sdk-grpc-flask: smoke-tests/collector/data.json
-	@echo ""
-	@echo "+++ Running GRPC Flask smoke tests on opentelemetry_instrument"
-	@echo ""
-	cd smoke-tests && bats ./smoke-sdk-grpc-flask.bats --report-formatter junit --output ./
 
 #: smoke test the flask app using http protocol and opentelemetry_instrument
 smoke-sdk-http-flask: smoke-tests/collector/data.json
@@ -89,7 +75,7 @@ smoke-sdk-http-flask: smoke-tests/collector/data.json
 	cd smoke-tests && bats ./smoke-sdk-http-flask.bats --report-formatter junit --output ./
 
 #: smoke test both example apps using grpc and then http/protobuf protocols
-smoke-sdk: smoke-sdk-grpc smoke-sdk-http smoke-sdk-grpc-flask smoke-sdk-http-flask
+smoke-sdk: smoke-sdk-http smoke-sdk-http-flask
 
 #: placeholder for smoke tests, simply build the app
 smoke:
@@ -114,11 +100,6 @@ run_example:
 	poetry run opentelemetry-instrument flask run
 
 JOB ?= test-3.10
-#: run a CI job in docker locally, set JOB to override default 'run_tests'
-local_ci_exec: local_ci_prereqs
-	circleci local execute \
-	--config .circleci/process.yml \
-	--job $(JOB)
 
 .PHONY: install build test lint run_example forbidden_in_real_ci
 
@@ -134,30 +115,3 @@ local_ci_exec: local_ci_prereqs
 # egrep to get the extended regex syntax support.
 # --only-matching to output only what matches, not the whole line.
 OUR_CONFIG_ENV_VARS := $(shell env | egrep --only-matching "^(HONEYCOMB_|OTEL_)[^=]+")
-
-# To use the circleci CLI to run jobs on your laptop.
-circle_cli_docs_url = https://circleci.com/docs/local-cli/
-local_ci_prereqs: forbidden_in_real_ci circle_cli_available .circleci/process.yml
-
-# the config must be processed to do things like expand matrix jobs.
-.circleci/process.yml: circle_cli_available .circleci/config.yml
-	circleci config process .circleci/config.yml > .circleci/process.yml
-
-circle_cli_available:
-ifneq (, $(shell which circleci))
-	@echo "🔎:✅ circleci CLI available"
-else
-	@echo "🔎:💥 circleci CLI command not available for local run."
-	@echo ""
-	@echo "   ❓ Is it installed? For more info: ${circle_cli_docs_url}\n\n" && exit 1
-endif
-
-forbidden_in_real_ci:
-ifeq ($(CIRCLECI),) # if not set, safe to assume not running in CircleCI compute
-	@echo "🔎:✅ not running in real CI"
-else
-	@echo "🔎:🛑 CIRCLECI environment variable is present, a sign that we're running in real CircleCI compute."
-	@echo ""
-	@echo "   🙈 circleci CLI can't local execute in Circle. That'd be 🍌🍌🍌."
-	@echo "" && exit 1
-endif

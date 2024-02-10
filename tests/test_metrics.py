@@ -18,4 +18,4 @@ def test_setting_debug_adds_console_exporter():
     resource = create_resource(options)
     meter_provider = create_meter_provider(options, resource)
     assert isinstance(meter_provider, MeterProvider)
-    assert len(meter_provider._sdk_config.metric_readers) == 2
+    assert len(meter_provider._sdk_config.metric_readers) == 1

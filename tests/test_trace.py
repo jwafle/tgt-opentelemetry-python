@@ -12,12 +12,10 @@ from tgt.opentelemetry.resource import create_resource
 from tgt.opentelemetry.trace import create_tracer_provider
 
 """
-Our Tracer Provider expects a series of span processors.
+Tracer Provider only provides one of two span processors.
 
-BaggageSpanProcessor (no export)
-BatchSpanProcessor (Honeycomb Exporter)
+BatchSpanProcessor (HTTP Exporter)
 SimpleSpanProcessor (Console Exporter)
-SimpleSpanProcessor (Local Vis Exporter)
 
 """
 
@@ -53,16 +51,20 @@ def test_setting_debug_adds_console_exporter_on_simple_span_processor():
     tracer_provider = create_tracer_provider(options, resource)
 
     active_span_processors = tracer_provider._active_span_processor._span_processors
-    assert len(active_span_processors) == 3
+    assert len(active_span_processors) == 1
 
-    (baggage, batch, console) = active_span_processors
+    (console) = active_span_processors
     assert isinstance(console, SimpleSpanProcessor)
     assert isinstance(console.span_exporter, ConsoleSpanExporter)
 
-def test_setting_both_flags_enables_all_available_span_processors():
-    options = TgtOptions(enable_local_visualizations=True, debug=True)
+def test_setting_no_flags_enables_all_batch_span_processors():
+    options = TgtOptions()
     resource = create_resource(options)
     tracer_provider = create_tracer_provider(options, resource)
 
     active_span_processors = tracer_provider._active_span_processor._span_processors
-    assert len(active_span_processors) == 4
+    assert len(active_span_processors) == 1
+
+    (batch) = active_span_processors
+    assert isinstance(batch, BatchSpanProcessor)
+    assert isinstance(batch.span_exporter, HTTPSpanExporter)

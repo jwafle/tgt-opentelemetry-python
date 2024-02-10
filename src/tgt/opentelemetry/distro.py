@@ -9,10 +9,8 @@ Typical usage example:
 
     or configured by code within your service:
     configure_opentelemetry(
-        HoneycombOptions(
-            debug=True,
-            apikey=os.getenv("HONEYCOMB_API_KEY"),
-            service_name="otel-python-example"
+        TgtOptions(
+            service_name="tgt-python-example"
         )
     )
 """
@@ -47,13 +45,21 @@ def configure_opentelemetry(
     _logger.info("🎯 Configuring OpenTelemetry using Target distro 🎯")
     _logger.debug(vars(options))
     resource = create_resource(options)
-    set_tracer_provider(
-        create_tracer_provider(options, resource)
-    )
-    if options.metrics_dataset:
+    if not options.traces_disabled:
+        set_tracer_provider(
+            create_tracer_provider(options, resource)
+        )
+        _logger.info("started traces")
+    else:
+        _logger.info("traces disabled via TRACES_DISABLED environment variable")
+    if not options.metrics_disabled:
         set_meter_provider(
             create_meter_provider(options, resource)
         )
+        _logger.info("started metrics")
+    else:
+        _logger.info("metrics disabled via METRICS_DISABLED environment variable")
+
 
 
 # pylint: disable=too-few-public-methods

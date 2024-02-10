@@ -20,7 +20,7 @@ Latest release built with:
 
 Target's Distribution of OpenTelemetry for Python allows you to streamline configuration and to instrument as quickly and easily as possible.
 
-- [Documentation](https://docs.tgt.io/getting-data-in/opentelemetry/python/)
+- [Documentation](https://docs.honeycomb.io/getting-data-in/opentelemetry/python/)
 - [Examples](/examples/)
 
 ## Why would I want to use this?

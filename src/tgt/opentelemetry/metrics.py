@@ -25,17 +25,20 @@ def create_meter_provider(options: TgtOptions, resource: Resource):
         endpoint=options.get_metrics_endpoint(),
         headers=options.get_metrics_headers()
     )
-    readers = [
-        PeriodicExportingMetricReader(
-            exporter
-        )
-    ]
+    readers = []
     if options.debug:
         readers.append(
             PeriodicExportingMetricReader(
                 ConsoleMetricExporter(),
             )
         )
+    else:
+        readers.append(
+            PeriodicExportingMetricReader(
+                exporter
+            )
+        )
+
     return MeterProvider(
         metric_readers=readers,
         resource=resource
